@@ -34,6 +34,8 @@ router.post('/coupon/insert', CouponController.insert);
 
 // MembershipController
 router.get('/membership/view', MembershipController.view);
+router.get('/membership/edit/:id', MembershipController.edit);
 router.get('/membership/insert', MembershipController.insertView);
+router.post('/membership/insert', MembershipController.insert)
 
 export default router;
