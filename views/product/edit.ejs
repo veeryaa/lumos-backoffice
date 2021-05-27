@@ -1,0 +1,174 @@
+<%- include ('../templates/header.ejs') %> <%- include ('../templates/navbar.ejs') %>
+
+<div id="successModal" class="modal" tabindex="-1" role="dialog"  aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="card">
+        <div class="card-header">
+          <h3>Notifikasi</h3>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-success" role="alert">
+            Data <%= data[0].product_id %> berhasil diupdate.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="failModal" class="modal" tabindex="-1" role="dialog"  aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="card">
+        <div class="card-header">
+          <h3>Notifikasi</h3>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-danger" role="alert">
+            Data <%= data[0].product_id %> gagal diupdate.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">Lumos Coffee Backoffice - Produk</div>
+        <div class="card-body">
+          <h3>Edit Data</h3>
+          <form action="" method="POST" id="updateForm">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="id">Produk ID: </label>
+                <input
+                  type="text"
+                  id="id"
+                  class="form-control"
+                  disabled
+                  placeholder="Product ID"
+                  value="<%= data[0].product_id %>"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="nama_produk">Nama Produk: </label
+                ><input
+                  type="text"
+                  nama="nama_produk"
+                  id="nama_produk"
+                  class="form-control"
+                  placeholder="Nama Produk"
+                  value="<%= data[0].nama_produk %>"
+                />
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-6">
+                <label for="kategori">Kategori: </label>
+                <select class="form-control" name="kategori" id="kategori">
+                  <option value="Non Coffee" <%= data[0].kategori === 'Non Coffee' ? 'selected' : '' %> >Non Coffee</option>
+                  <option value="Coffee" <%= data[0].kategori === 'Coffee' ? 'selected' : '' %>  >Coffee</option>
+                  <option value="Makanan" <%= data[0].kategori === 'Makanan' ? 'selected' : '' %>>Makanan</option>
+                  <option value="Tambahan" <%= data[0].kategori === 'Tambahan' ? 'selected' : '' %>>Tambahan</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="deskripsi">Deskripsi: </label
+                ><input
+                  type="text"
+                  nama="deskripsi"
+                  id="deskripsi"
+                  class="form-control"
+                  placeholder="Deskripsi"
+                  value="<%= data[0].deskripsi %>"
+                />
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-6">
+                <label for="deskripsi">Harga: </label
+                ><input
+                  type="text"
+                  nama="harga"
+                  id="harga"
+                  class="form-control"
+                  placeholder="Harga"
+                  value="<%= data[0].harga %>"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="">Aksi: </label>
+                <button class="btn btn-primary" id="btnUpdate" style="width: 100%">Update</button>
+                <div class="d-flex justify-content-center">
+                  <div class="spinner-border mt-3" id="loading" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const updateForm = document.querySelector('#updateForm');
+  const loading = document.getElementById('loading')
+  const jwt = document.cookie.split('=')[1];
+
+  function readForm(element) {
+    return document.forms['updateForm'].elements[element].value.trim();
+  }
+
+  loading.style.visibility = 'hidden';
+
+  updateForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    loading.style.visibility = 'visible';
+
+    const id = readForm('id');
+    const nama_produk = readForm('nama_produk');
+    const kategori = readForm('kategori');
+    const deskripsi = readForm('deskripsi');
+    const harga = readForm('harga');
+
+    const data = {
+      nama_produk,
+      kategori,
+      deskripsi,
+      harga,
+    };
+
+    fetch(`http://localhost:8000/api/product/update/${id}`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.msg && res.status === 200) {
+          $('#successModal').modal('show');
+          loading.style.visibility = 'hidden';
+        } else {
+          $('#failModal').modal('show');
+          loading.style.visibility = 'hidden';
+        }
+      })
+      .catch((err) => { 
+        $('#failModal').modal('show');
+        loading.style.visibility = 'hidden';
+        console.error(err); 
+      });
+  });
+</script>
+
+<%- include ('../templates/footer.ejs') %>

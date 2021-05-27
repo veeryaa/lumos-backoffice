@@ -1,0 +1,26 @@
+<%- include ('./templates/header.ejs') %>
+
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-header">Lumos - Backoffice Authentication</div>
+    <div class="card-body">
+      <form action="/login" method="post">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Email</span>
+          </div>
+          <input type="email" name="email" class="form-control" />
+        </div>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Password</span>
+          </div>
+          <input type="password" name="password" class="form-control" />
+        </div>
+        <button class="btn btn-primary">Login</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include ('./templates/footer.ejs') %>

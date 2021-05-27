@@ -1,0 +1,66 @@
+<%- include ('../templates/header.ejs') %> <%- include ('../templates/navbar.ejs') %>
+
+<div class="container mt-5">
+  <% if (messages.msg) { %>
+    <div class="alert alert-success" role="alert">
+      <%= messages.msg %> 
+    </div>
+  <% } %> 
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">Lumos Coffee Backoffice - Kupon</div>
+        <div class="card-body">
+          <h3>Insert Data</h3>
+          <form action="/coupon/insert" method="POST">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="id">Membership ID: </label
+                ><input
+                  type="text"
+                  id="id"
+                  name="membership_id"
+                  class="form-control"
+                  placeholder="Coupon ID"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="nama_produk">Deskripsi: </label
+                ><input
+                  type="text"
+                  name="deskripsi"
+                  id="deskripsi"
+                  class="form-control"
+                  placeholder="Deskripsi"
+                />
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-6">
+                <label for="deskripsi">Minimum Poin: </label
+                ><input
+                  type="text"
+                  name="minimum_poin"
+                  id="minimum_poin"
+                  class="form-control"
+                  placeholder="Minimum Poin"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="">Aksi: </label>
+                <button class="btn btn-primary" style="width: 100%">Insert</button>
+              </div>
+            </div>
+  
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+</script>
+
+<%- include ('../templates/footer.ejs') %>

@@ -1,0 +1,122 @@
+<%- include ('../templates/header.ejs') %> <%- include ('../templates/navbar.ejs') %>
+
+<div id="successModal" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="card">
+        <div class="card-header">
+          <h3>Notifikasi</h3>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-success" role="alert">SUKSES</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="failModal" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="card">
+        <div class="card-header">
+          <h3>Notifikasi</h3>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-danger" role="alert">GAGAL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <% if (messages.msg) { %>
+    <div class="alert alert-success" role="alert">
+      <%= messages.msg %> 
+    </div>
+  <% } %> 
+  <% if (messages.err) { %>
+    <div class="alert alert-danger" role="alert">
+      <%= messages.err %> 
+    </div>
+  <% } %> 
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">Lumos Coffee Backoffice - Produk</div>
+        <div class="card-body">
+          <h3>Insert Data</h3>
+          <form action="/product/insert" method="POST">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="id">Produk ID: </label>
+                <input
+                  type="text"
+                  name="product_id"
+                  id="id"
+                  class="form-control"
+                  placeholder="Product ID"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="nama_produk">Nama Produk: </label
+                ><input
+                  type="text"
+                  name="nama_produk"
+                  id="nama_produk"
+                  class="form-control"
+                  placeholder="Nama Produk"
+                />
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-6">
+                <label for="kategori">Kategori: </label>
+                <select class="form-control" name="kategori" id="kategori">
+                  <option value="Non Coffee">Non Coffee</option>
+                  <option value="Coffee">Coffee</option>
+                  <option value="Makanan">Makanan</option>
+                  <option value="Tambahan">Tambahan</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="deskripsi">Deskripsi: </label
+                ><input
+                  type="text"
+                  name="deskripsi"
+                  id="deskripsi"
+                  class="form-control"
+                  placeholder="Deskripsi"
+                />
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-6">
+                <label for="deskripsi">Harga: </label
+                ><input
+                  type="text"
+                  name="harga"
+                  id="harga"
+                  class="form-control"
+                  placeholder="Harga"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="">Aksi: </label>
+                <button class="btn btn-primary" id="btnInsert" style="width: 100%">Insert</button>
+               
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+</script>
+
+<%- include ('../templates/footer.ejs') %>

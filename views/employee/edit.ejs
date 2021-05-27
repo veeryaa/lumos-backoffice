@@ -1,0 +1,174 @@
+<%- include ('../templates/header.ejs') %> <%- include ('../templates/navbar.ejs') %>
+
+<div id="successModal" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="card">
+        <div class="card-header">
+          <h3>Notifikasi</h3>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-success" role="alert">
+            Data <%= data[0].employee_id %> berhasil diupdate.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="failModal" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="card">
+        <div class="card-header">
+          <h3>Notifikasi</h3>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-danger" role="alert">
+            Data <%= data[0].employee_id %> gagal diupdate.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">Lumos Coffee Backoffice - Pegawai</div>
+        <div class="card-body">
+          <h3>Edit Data</h3>
+          <form action="" method="POST" id="updateForm">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="id">Employee ID: </label
+                ><input
+                  type="text"
+                  id="id"
+                  class="form-control"
+                  disabled
+                  placeholder="Employee ID"
+                  value="<%= data[0].employee_id %>"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="nama">Nama Lengkap: </label
+                ><input
+                  type="text"
+                  nama="nama"
+                  id="nama"
+                  class="form-control"
+                  placeholder="Nama"
+                  value="<%= data[0].nama %>"
+                />
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-6">
+                <label for="tgl_lahir">Tanggal Lahir: </label
+                ><input type="date" class="form-control" name="tgl_lahir" id="tgl_lahir" />
+              </div>
+              <div class="col-md-6">
+                <label for="email">Email: </label
+                ><input
+                  type="text"
+                  nama="email"
+                  id="email"
+                  class="form-control"
+                  placeholder="Email"
+                  value="<%= data[0].email %>"
+                />
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-6">
+                <label for="role">Role: </label
+                ><input
+                  type="text"
+                  nama="role"
+                  id="role"
+                  class="form-control"
+                  placeholder="role"
+                  value="<%= data[0].role %>"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="">Aksi: </label>
+                <button class="btn btn-primary" style="width: 100%">Update</button>
+                <div class="d-flex justify-content-center">
+                  <div class="spinner-border mt-3" id="loading" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const datepicker = document.getElementById('tgl_lahir');
+  const tanggal_lahir = new Date('<%- data[0].tanggal_lahir %>')
+    .toISOString()
+    .split('T')[0]
+    .slice(0, 10);
+  datepicker.value = tanggal_lahir;
+  const loading = document.getElementById('loading');
+  loading.style.visibility = 'hidden'
+
+  const updateForm = document.querySelector('#updateForm');
+  const jwt = document.cookie.split('=')[1];
+
+  function readForm(element) {
+    return document.forms['updateForm'].elements[element].value.trim();
+  }
+
+  updateForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    loading.style.visibility = 'visible';
+
+    const id = readForm('id');
+    const nama = readForm('nama');
+    const email = readForm('email');
+    const role = readForm('role');
+
+    const data = {
+      nama,
+      tanggal_lahir: datepicker.value,
+      email,
+      role,
+    };
+
+    fetch(`http://localhost:8000/api/employee/update/${id}`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.msg && res.status === 200) {
+          $('#successModal').modal('show');
+          loading.style.visibility = 'hidden';
+        } else {
+          $('#failModal').modal('show');
+          loading.style.visibility = 'hidden';
+        }
+      })
+      .catch((err) => {
+        $('#failModal').modal('show');
+        loading.style.visibility = 'hidden';
+        console.error(err);
+      });
+  });
+</script>
+
+<%- include ('../templates/footer.ejs') %>

@@ -1,0 +1,184 @@
+<%- include ('../templates/header.ejs') %> <%- include ('../templates/navbar.ejs') %>
+
+<div id="successModal" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="card">
+        <div class="card-header">
+          <h3>Notifikasi</h3>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-success" role="alert">
+            Data <%= data[0].coupond_id %> berhasil diupdate.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="failModal" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="card">
+        <div class="card-header">
+          <h3>Notifikasi</h3>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-danger" role="alert">
+            Data <%= data[0].coupond_id %> gagal diupdate.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">Lumos Coffee Backoffice - Kupon</div>
+        <div class="card-body">
+          <h3>Edit Data</h3>
+          <form action="" method="POST" id="updateForm">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="id">Coupon ID: </label
+                ><input
+                  type="text"
+                  id="id"
+                  class="form-control"
+                  disabled
+                  placeholder="Coupon ID"
+                  value="<%= data[0].coupon_id %>"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="nama_produk">Nama Kupon: </label
+                ><input
+                  type="text"
+                  nama="nama_kupon"
+                  id="nama_kupon"
+                  class="form-control"
+                  placeholder="Nama Kupon"
+                  value="<%= data[0].nama_kupon %>"
+                />
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-6">
+                <label for="produk_diskon">Produk Diskon: </label>
+                <select class="form-control" name="produk_diskon" id="produk_diskon">
+                  <% support.forEach(product => { %>
+                  <option value="<%= product.product_id %>" <%= product.product_id === data[0].product_id ? 'selected' : '' %>  ><%= product.nama_produk %></option>
+                  <% }) %></select
+                >element element
+      
+              </div>
+              <div class="col-md-6">
+                <label for="deskripsi">Diskon: </label
+                ><input
+                  type="text"
+                  nama="diskon"
+                  id="diskon"
+                  class="form-control"
+                  placeholder="diskon"
+                  value="<%= data[0].diskon %>"
+                />
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-6">
+                <label for="tgl_mulai">Tanggal Mulai: </label
+                ><input type="date" class="form-control" name="tgl_mulai" id="tgl_mulai" />
+              </div>
+              <div class="col-md-6">
+                <label for="tgl_berakhir">Tanggal Berakhir: </label
+                ><input type="date" class="form-control" name="tgl_berakhir" id="tgl_berakhir" />
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-6">
+                <label for="">Aksi: </label>
+                <button class="btn btn-primary" style="width: 100%">Update</button>
+                <div class="d-flex justify-content-center">
+                  <div class="spinner-border mt-3" id="loading" role="status">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const pickerTglMulai = document.getElementById('tgl_mulai');
+  const pickerTglBerakhir = document.getElementById('tgl_berakhir');
+  const loading = document.getElementById('loading');
+  const tgl_mulai = new Date('<%- data[0].tgl_mulai %>').toISOString().split('T')[0].slice(0, 10);
+  const tgl_berakhir = new Date('<%- data[0].tgl_berakhir %>')
+    .toISOString()
+    .split('T')[0]
+    .slice(0, 10);
+
+  pickerTglMulai.value = tgl_mulai;
+  pickerTglBerakhir.value = tgl_berakhir;
+  loading.style.visibility = 'hidden';
+
+  const updateForm = document.querySelector('#updateForm');
+  const jwt = document.cookie.split('=')[1];
+
+  function readForm(element) {
+    return document.forms['updateForm'].elements[element].value.trim();
+  }
+
+  updateForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    loading.style.visibility = 'visible';
+
+    const id = readForm('id');
+    const nama_kupon = readForm('nama_kupon');
+    const product_id = readForm('produk_diskon');
+    const diskon = readForm('diskon');
+
+    const data = {
+      nama_kupon,
+      product_id,
+      diskon,
+      tgl_mulai: pickerTglMulai.value,
+      tgl_berakhir: pickerTglBerakhir.value,
+    };
+
+    fetch(`http://localhost:8000/api/coupon/update/${id}`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.msg && res.status === 200) {
+          $('#successModal').modal('show');
+          loading.style.visibility = 'hidden';
+        } else {
+          $('#failModal').modal('show');
+          loading.style.visibility = 'hidden';
+        }
+      })
+      .catch((err) => {
+        $('#failModal').modal('show');
+        loading.style.visibility = 'hidden';
+        console.error(err);
+      });
+  });
+</script>
+
+<%- include ('../templates/footer.ejs') %>

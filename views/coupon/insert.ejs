@@ -1,0 +1,86 @@
+<%- include ('../templates/header.ejs') %> <%- include ('../templates/navbar.ejs') %>
+
+<div class="container mt-5">
+  <% if (messages.msg) { %>
+    <div class="alert alert-success" role="alert">
+      <%= messages.msg %> 
+    </div>
+  <% } %> 
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">Lumos Coffee Backoffice - Kupon</div>
+        <div class="card-body">
+          <h3>Insert Data</h3>
+          <form action="/coupon/insert" method="POST">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="id">Coupon ID: </label
+                ><input
+                  type="text"
+                  id="id"
+                  name="coupon_id"
+                  class="form-control"
+                  placeholder="Coupon ID"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="nama_produk">Nama Kupon: </label
+                ><input
+                  type="text"
+                  name="nama_kupon"
+                  id="nama_kupon"
+                  class="form-control"
+                  placeholder="Nama Kupon"
+                />
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-6">
+                <label for="product_id">Produk Diskon: </label>
+                <select class="form-control" name="product_id" id="product_id">
+                  <% support.forEach(product => { %>
+                  <option value="<%= product.product_id %>"><%= product.nama_produk %></option>
+                  <% }) %></select
+                >
+      
+              </div>
+              <div class="col-md-6">
+                <label for="deskripsi">Diskon: </label
+                ><input
+                  type="text"
+                  name="diskon"
+                  id="diskon"
+                  class="form-control"
+                  placeholder="Nilai Diskon"
+                />
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-6">
+                <label for="tgl_mulai">Tanggal Mulai: </label
+                ><input type="date" class="form-control" name="tgl_mulai" id="tgl_mulai" />
+              </div>
+              <div class="col-md-6">
+                <label for="tgl_berakhir">Tanggal Berakhir: </label
+                ><input type="date" class="form-control" name="tgl_berakhir" id="tgl_berakhir" />
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-6">
+                <label for="">Aksi: </label>
+                <button class="btn btn-primary" style="width: 100%">Insert</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+</script>
+
+<%- include ('../templates/footer.ejs') %>
