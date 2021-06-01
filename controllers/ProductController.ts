@@ -24,8 +24,9 @@ const ProductController = {
               },
             }
           );
-
-          const pagination = Math.ceil(product.data.count / 10);
+          let pagination = Math.ceil(product.data.count / 10);
+          
+          if (pagination === 0) pagination = 1;
 
           res.render('product/view', {
             nav: 'product',
@@ -42,7 +43,9 @@ const ProductController = {
               },
             }
           );
-          const pagination = Math.ceil(product.data.count / 10);
+          let pagination = Math.ceil(product.data.count / 10);
+          
+          if (pagination === 0) pagination = 1;
 
           res.render('product/view', {
             nav: 'product',

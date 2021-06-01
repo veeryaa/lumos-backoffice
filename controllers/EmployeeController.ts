@@ -13,7 +13,7 @@ const EmployeeController = {
       const response = await axios.post('http://localhost:8000/auth/verifyToken/', {
         token: jwt,
       });
-      console.log('OUTSIDE ROLE')
+      console.log('OUTSIDE ROLE');
       if (response.data.status === 200) {
         if (req.query.role) {
           const employee = await axios.get(
@@ -25,10 +25,9 @@ const EmployeeController = {
             }
           );
 
-          const pagination = Math.ceil(employee.data.count / 10);
-
-            console.log(employee.data.result);
-
+          let pagination = Math.ceil(employee.data.count / 10);
+    
+          if (pagination === 0) pagination = 1;
           res.render('employee/view', {
             nav: 'employee',
             data: employee.data.result,
@@ -36,7 +35,7 @@ const EmployeeController = {
             role: req.query.role,
           });
         } else {
-          console.log('TEST ROLE 2')
+          console.log('TEST ROLE 2');
           const employee = await axios.get(
             `http://localhost:8000/api/employee/read?page=${req.query.page}`,
             {
@@ -46,7 +45,8 @@ const EmployeeController = {
             }
           );
 
-          const pagination = Math.ceil(employee.data.count / 10);
+          let pagination = Math.ceil(employee.data.count / 10);
+          if (pagination === 0) pagination = 1;
           res.render('employee/view', {
             nav: 'employee',
             data: employee.data.result,
