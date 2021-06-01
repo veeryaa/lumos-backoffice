@@ -22,6 +22,7 @@ router.post('/product/insert', ProductController.insert);
 
 // EmployeeController
 router.get('/employee/view', EmployeeController.view);
+router.get('/employee/view/:kategori', EmployeeController.viewRole);
 router.get('/employee/edit/:id', EmployeeController.edit);
 router.get('/employee/insert', EmployeeController.insertView);
 router.post('/employee/insert', EmployeeController.insert);

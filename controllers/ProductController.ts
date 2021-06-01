@@ -15,13 +15,42 @@ const ProductController = {
       });
 
       if (response.data.status === 200) {
-        const product = await axios.get('http://localhost:8000/api/product/read/', {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        });
+        if (req.query.kategori) {
+          const product = await axios.get(
+            `http://localhost:8000/api/product/read/${req.query.kategori}?page=${req.query.page}`,
+            {
+              headers: {
+                Authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
 
-        res.render('product/view', { nav: 'product', data: product.data.result });
+          const pagination = Math.ceil(product.data.count / 10);
+
+          res.render('product/view', {
+            nav: 'product',
+            data: product.data.result,
+            pagination,
+            kategori: req.query.kategori,
+          });
+        } else {
+          const product = await axios.get(
+            `http://localhost:8000/api/product/read?page=${req.query.page}`,
+            {
+              headers: {
+                Authorization: `Bearer ${jwt}`,
+              },
+            }
+          );
+          const pagination = Math.ceil(product.data.count / 10);
+
+          res.render('product/view', {
+            nav: 'product',
+            data: product.data.result,
+            pagination,
+            kategori: null,
+          });
+        }
       }
     } catch (err) {
       res.redirect('/login');
@@ -63,7 +92,7 @@ const ProductController = {
         res.render('product/insert', { nav: 'product' });
       }
     } catch (err) {
-      res.redirect('/login');  
+      res.redirect('/login');
     }
   },
   insert: async function (req: Request, res: Response): Promise<void> {
@@ -76,17 +105,13 @@ const ProductController = {
 
       if (response.data.status === 200) {
         console.log(req.body);
-        
-        await axios.post(
-          'http://localhost:8000/api/product/create',
-          req.body,
-          {
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        );
+
+        await axios.post('http://localhost:8000/api/product/create', req.body, {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+            'Content-Type': 'application/json',
+          },
+        });
 
         req.flash('msg', 'Data berhasil ditambahkan.');
         res.redirect('/product/insert');

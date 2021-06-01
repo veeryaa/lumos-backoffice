@@ -8,7 +8,16 @@
         <div class="card-body">
           <div class="row">
             <div class="col-md-3">
-              <a href="/employee/insert" style="width: 100%" class="btn btn-primary">Tambah Data Employee</a>
+              <a href="/employee/insert" style="width: 100%" class="btn btn-primary"
+                >Tambah Data Employee</a
+              >
+            </div>
+            <div class="col-md-3 offset-md-6">
+              <select name="role" id="role" class="form-control">
+                <option value="">Pilih Kategori</option>
+                <option value="Owner">Owner</option>
+                <option value="Staff">Staff</option>
+              </select>
             </div>
           </div>
           <table class="table table-responsive-md mt-3">
@@ -24,9 +33,13 @@
             </thead>
             <tbody>
               <% data.forEach((element, i) => { %>
-              <tr> 
+              <tr>
                 <td><%= i + 1 %></td>
-                <td><a href="/employee/edit/<%= element.employee_id %> "><%= element.employee_id %></a></td>
+                <td>
+                  <a href="/employee/edit/<%= element.employee_id %> "
+                    ><%= element.employee_id %></a
+                  >
+                </td>
                 <td><%= element.nama %></td>
                 <td><%= new Date(element.tanggal_lahir).toLocaleString().split(',')[0] %></td>
                 <td><%= element.email %></td>
@@ -35,10 +48,77 @@
               <% }) %>
             </tbody>
           </table>
+          <% if (pagination) { %>
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item"><a class="page-link" href="#" id="previous">Previous</a></li>
+              <% for( let i = 1; i <= pagination; i++ ) { %>
+              <li class="page-item">
+                <% if (role == null) { %>
+                <a class="page-link" href="/employee/view?page=<%= i %>"><%= i %></a>
+                <% } %> <% if (role) { %>
+                <a class="page-link" href="/employee/view?role=<%= role %>&page=<%= i %>"
+                  ><%= i %></a
+                >
+                <% } %>
+              </li>
+              <% } %>
+              <li class="page-item"><a class="page-link" href="#" id="next">Next</a></li>
+            </ul>
+          </nav>
+          <% } %>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  const role = document.getElementById('role');
+  const nextPage = document.getElementById('next');
+  const prevPage = document.getElementById('previous');
+  const URLparam = new URLSearchParams(window.location.search);
+  const selectedPage = document.getElementsByClassName('page-item');
+  let pageParam = URLparam.get('page');
+  let roleParam = URLparam.get('role');
+
+  if (pageParam) {
+    selectedPage[pageParam].classList.add('active');
+  }
+
+  if (pageParam < '<%= pagination %>') {
+    if (roleParam) {
+      nextPage.setAttribute(
+        'href',
+        `http://localhost:7000/employee/view?role=${roleParam}&page=${parseInt(pageParam) + 1}`
+      );
+    } else {
+      nextPage.setAttribute(
+        'href', 
+        `http://localhost:7000/employee/view?page=${parseInt(pageParam) + 1}`
+      );
+    }
+  }
+
+  if (pageParam > 1) {
+    if (kategoriParam) {
+      prevPage.setAttribute(
+        'href',
+        `http://localhost:7000/employee/view?kategori=${roleParam}&page=${
+          parseInt(pageParam) - 1
+        }`
+      );
+    } else {
+      prevPage.setAttribute(
+        'href',
+        `http://localhost:7000/employee/view?page=${parseInt(pageParam) - 1}`
+      );
+    }
+  }
+
+  role.addEventListener('change', (e) => {
+    window.location.href = `http://localhost:7000/employee/view?role=${e.target.value}&page=1`;
+  });
+</script>
 
 <%- include ('../templates/footer.ejs') %>

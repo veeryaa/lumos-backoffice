@@ -12,11 +12,19 @@
                 >Tambah Data Produk</a
               >
             </div>
+            <div class="col-md-3 offset-md-6">
+              <select name="kategori" id="kategori" class="form-control">
+                <option value="">Pilih Kategori</option>
+                <option value="Coffee">Coffee</option>
+                <option value="Non Coffee">Non Coffee</option>
+                <option value="Makanan">Makanan</option>
+                <option value="Tambahan">Tambahan</option>
+              </select>
+            </div>
           </div>
           <table class="table table-responsive-md">
             <thead>
               <tr>
-                <th scope="col">#</th>
                 <th scope="col">Product ID</th>
                 <th scope="col">Nama Produk</th>
                 <th scope="col">Kategori</th>
@@ -27,7 +35,6 @@
             <tbody>
               <% data.forEach((element, i) => { %>
               <tr>
-                <td><%= i + 1%></td>
                 <td>
                   <a href="/product/edit/<%= element.product_id %> "><%= element.product_id %></a>
                 </td>
@@ -39,10 +46,79 @@
               <% }) %>
             </tbody>
           </table>
+          <% if (pagination) { %>
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item"><a class="page-link" href="#" id="previous">Previous</a></li>
+              <% for( let i = 1; i <= pagination; i++ ) { %>
+              <li class="page-item">
+                <% if (kategori == null) { %>
+                <a class="page-link" href="/product/view?page=<%= i %>"><%= i %></a>
+                <% } %> <% if (kategori) { %>
+                <a class="page-link" href="/product/view?kategori=<%= kategori %>&page=<%= i %>"
+                  ><%= i %></a
+                >
+                <% } %>
+              </li>
+              <% } %>
+              <li class="page-item"><a class="page-link" href="#" id="next">Next</a></li>
+            </ul>
+          </nav>
+          <% } %>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  const kategori = document.getElementById('kategori');
+  const nextPage = document.getElementById('next');
+  const prevPage = document.getElementById('previous');
+  const URLParam = new URLSearchParams(window.location.search);
+  const selectedPage = document.getElementsByClassName('page-item');
+  let pageParam = URLParam.get('page');
+  let kategoriParam = URLParam.get('kategori');
+
+  if (pageParam) {
+    selectedPage[pageParam].classList.add('active');
+  }
+
+  if (pageParam < '<%= pagination %>') {
+    if (kategoriParam) {
+      nextPage.setAttribute(
+        'href',
+        `http://localhost:7000/product/view?kategori=${kategoriParam}&page=${
+          parseInt(pageParam) + 1
+        }`
+      );
+    } else {
+      nextPage.setAttribute(
+        'href',
+        `http://localhost:7000/product/view?page=${parseInt(pageParam) + 1}`
+      );
+    }
+  }
+
+  if (pageParam > 1) {
+    if (kategoriParam) {
+      prevPage.setAttribute(
+        'href',
+        `http://localhost:7000/product/view?kategori=${kategoriParam}&page=${
+          parseInt(pageParam) - 1
+        }`
+      );
+    } else {
+      prevPage.setAttribute(
+        'href',
+        `http://localhost:7000/product/view?page=${parseInt(pageParam) - 1}`
+      );
+    }
+  }
+
+  kategori.addEventListener('change', (e) => {
+    window.location.href = `http://localhost:7000/product/view?kategori=${e.target.value}&page=1`;
+  });
+</script>
 
 <%- include ('../templates/footer.ejs') %>

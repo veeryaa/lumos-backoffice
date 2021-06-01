@@ -72,17 +72,17 @@ const CouponController = {
       });
 
       if (response.data.status === 200) {
-        const product = await axios.get(`http://localhost:8000/api/product/read/`, {
+        const product = await axios.get(`http://localhost:8000/api/product/read?page=0`, {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
         });
 
-        // console.log('--- SUPPORT');
-        // console.log(product)
         res.render('coupon/insert', { nav: 'coupon', support: product.data.result });
       }
     } catch (err) {
+      console.log('--- COUPON ERR');
+      console.log(err)
       res.redirect('/login');
     }
   },
