@@ -4,46 +4,38 @@
   <div class="row">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header">Lumos Coffee Backoffice - Employee</div>
+        <div class="card-header">Lumos Coffee Backoffice - Customer</div>
         <div class="card-body">
           <div class="row">
             <div class="col-md-3">
-              <a href="/employee/insert" style="width: 100%" class="btn btn-primary"
-                >Tambah Data Employee</a
-              >
-            </div>
-            <div class="col-md-3 offset-md-6">
-              <select name="role" id="role" class="form-control">
-                <option value="">Pilih Kategori</option>
-                <option value="Owner">Owner</option>
-                <option value="Staff">Staff</option>
+              <select name="member" id="member" class="form-control">
+                <option value="">Pilih Membership</option>
+                <option value="Bronze">Bronze</option>
+                <option value="Silver">Silver</option>
+                <option value="Gold">Gold</option>
               </select>
             </div>
           </div>
           <table class="table table-responsive-md mt-3">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">Employee ID</th>
+                <th scope="col">Customer ID</th>
                 <th scope="col">Nama Lengkap</th>
-                <th scope="col">Tanggal Lahir</th>
                 <th scope="col">Email</th>
-                <th scope="col">Role</th>
+                <th scope="col">Membership</th>
               </tr>
             </thead>
             <tbody>
               <% data.forEach((element, i) => { %>
               <tr>
-                <td><%= i + 1 %></td>
                 <td>
-                  <a href="/employee/edit/<%= element.employee_id %> "
-                    ><%= element.employee_id %></a
+                  <a href="/customer/edit/<%= element.customer_id %> "
+                    ><%= element.customer_id %></a
                   >
                 </td>
                 <td><%= element.nama %></td>
-                <td><%= new Date(element.tanggal_lahir).toLocaleString().split(',')[0] %></td>
                 <td><%= element.email %></td>
-                <td><%= element.role %></td>
+                <td><%= element.membership_id %></td>
               </tr>
               <% }) %>
             </tbody>
@@ -54,10 +46,10 @@
               <li class="page-item"><a class="page-link" href="#" id="previous">Previous</a></li>
               <% for( let i = 1; i <= pagination; i++ ) { %>
               <li class="page-item">
-                <% if (role == null) { %>
-                <a class="page-link" href="/employee/view?page=<%= i %>"><%= i %></a>
-                <% } %> <% if (role) { %>
-                <a class="page-link" href="/employee/view?role=<%= role %>&page=<%= i %>"
+                <% if (member == null) { %>
+                <a class="page-link" href="/customer/view?page=<%= i %>"><%= i %></a>
+                <% } %> <% if (member) { %>
+                <a class="page-link" href="/customer/view?member=<%= member %>&page=<%= i %>"
                   ><%= i %></a
                 >
                 <% } %>
@@ -74,51 +66,52 @@
 </div>
 
 <script>
-  const role = document.getElementById('role');
+  const member = document.getElementById('member');
   const nextPage = document.getElementById('next');
   const prevPage = document.getElementById('previous');
   const URLparam = new URLSearchParams(window.location.search);
   const selectedPage = document.getElementsByClassName('page-item');
   let pageParam = URLparam.get('page');
-  let roleParam = URLparam.get('role');
+  let memberParam = URLparam.get('member');
 
   if (pageParam < '<%= pagination %>') {
-    if (roleParam) {
+    if (memberParam) {
       nextPage.setAttribute(
         'href',
-        `http://localhost:7000/employee/view?role=${roleParam}&page=${parseInt(pageParam) + 1}`
+        `http://localhost:7000/customer/view?member=${memberParam}&page=${parseInt(pageParam) + 1}`
       );
     } else {
       nextPage.setAttribute(
-        'href', 
-        `http://localhost:7000/employee/view?page=${parseInt(pageParam) + 1}`
+        'href',
+        `http://localhost:7000/customer/view?page=${parseInt(pageParam) + 1}`
       );
     }
   }
 
   if (pageParam > 1) {
-    if (roleParam) {
+    if (kategoriParam) {
       prevPage.setAttribute(
         'href',
-        `http://localhost:7000/employee/view?role=${roleParam}&page=${parseInt(pageParam) - 1}`
+        `http://localhost:7000/customer/view?kategori=${memberParam}&page=${
+          parseInt(pageParam) - 1
+        }`
       );
     } else {
       prevPage.setAttribute(
         'href',
-        `http://localhost:7000/employee/view?page=${parseInt(pageParam) - 1}`
+        `http://localhost:7000/customer/view?page=${parseInt(pageParam) - 1}`
       );
     }
   }
 
-  role.addEventListener('change', (e) => {
-    console.log('TEst');
-    window.location.href = `http://localhost:7000/employee/view?role=${e.target.value}&page=1`;
+  member.addEventListener('change', (e) => {
+    window.location.href = `http://localhost:7000/customer/view?member=${e.target.value}&page=1`;
   });
 
   if (pageParam) {
     selectedPage[pageParam].classList.add('active');
-  } else {
-    console.log('No data');
+  } else if (pageParam === null) {
+    selectedPage[1].classList.add('active');
   }
 </script>
 

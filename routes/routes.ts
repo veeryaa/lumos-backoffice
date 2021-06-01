@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import AuthController  from '../controllers/AuthController';
 import CouponController from '../controllers/CouponController';
+import CustomerController from '../controllers/CustomerController';
 import EmployeeController from '../controllers/EmployeeController';
 import MembershipController from '../controllers/MembershipController';
 import ProductController from '../controllers/ProductController';
@@ -38,5 +39,8 @@ router.get('/membership/view', MembershipController.view);
 router.get('/membership/edit/:id', MembershipController.edit);
 router.get('/membership/insert', MembershipController.insertView);
 router.post('/membership/insert', MembershipController.insert)
+
+// CustomerController
+router.get('/customer/view', CustomerController.view);
 
 export default router;
