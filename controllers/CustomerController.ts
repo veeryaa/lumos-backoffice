@@ -47,7 +47,7 @@ const CustomerController = {
             
           let pagination = Math.ceil(customer.data.count / 10);
           if (pagination === 0) pagination = 1;
-       
+
           res.render('customer/view', {
             nav: 'customer',
             data: customer.data.result,
@@ -60,6 +60,33 @@ const CustomerController = {
       res.redirect('/login');
     }
   },
+  edit: async function (req: Request, res: Response): Promise<void> {
+    try {
+      const { jwt } = req.cookies;
+
+      const response = await axios.post('http://localhost:8000/auth/verifyToken/', {
+        token: jwt,
+      });
+
+      if (response.data.status === 200) {
+        const customer = await axios.get(
+          `http://localhost:8000/api/customer/find/${req.params.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+
+        console.log('------ customer');
+        console.log(customer.data.result);
+
+        res.render('customer/edit', { nav: 'customer', data: customer.data.result });
+      }
+    } catch (err) {
+      res.redirect('/login');
+    }
+  }, 
 };
 
 export default CustomerController;

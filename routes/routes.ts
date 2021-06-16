@@ -5,6 +5,7 @@ import CustomerController from '../controllers/CustomerController';
 import EmployeeController from '../controllers/EmployeeController';
 import MembershipController from '../controllers/MembershipController';
 import ProductController from '../controllers/ProductController';
+import TrxController from '../controllers/TrxController';
 
 const router = Router();
 
@@ -23,7 +24,6 @@ router.post('/product/insert', ProductController.insert);
 
 // EmployeeController
 router.get('/employee/view', EmployeeController.view);
-router.get('/employee/view/:kategori', EmployeeController.viewRole);
 router.get('/employee/edit/:id', EmployeeController.edit);
 router.get('/employee/insert', EmployeeController.insertView);
 router.post('/employee/insert', EmployeeController.insert);
@@ -42,5 +42,11 @@ router.post('/membership/insert', MembershipController.insert)
 
 // CustomerController
 router.get('/customer/view', CustomerController.view);
+router.get('/customer/edit/:id', CustomerController.edit);
+
+// TrxController
+router.get('/trx/view', TrxController.view);
+router.get('/trx/edit/:id', TrxController.edit);
+router.post('/trx/recommendation', TrxController.recommendation);
 
 export default router;

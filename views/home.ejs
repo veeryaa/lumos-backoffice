@@ -1,11 +1,87 @@
 <%- include ('./templates/header.ejs') %> <%- include ('./templates/navbar.ejs') %>
 
 <div class="container mt-5">
+  <% if (messages.code) { %> <% if (messages.code == '500') { %>
+  <div class="alert alert-danger" role="alert"><%= messages.info %></div>
+  <% } else { %>
+  <div class="alert alert-success" role="alert"><%= messages.info %></div>
+
+  <% } %> <% } %>
+
   <div class="row">
-    <div class="col-md-12 d-flex justify-content-center">
-      <h1>Home</h1>
+    <div class="col-md-12">
+      <div class="card mb-3">
+        <div class="card-header">Lumos Coffee Backoffice - Rekomendasi</div>
+        <div class="card-body">
+        
+          <table class="table table-responsive-md">
+            <thead>
+              <tr>
+                <th scope="col">Antecedent</th>
+                <th scope="col">Consequent</th>
+                <th scope="col">Support</th>
+                <th scope="col">Confidence</th>
+                <th scope="col">Lift Ratio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% data.forEach(element => { %>
+              <tr>
+                <td><%= element.antecedent %></td>
+                <td><%= element.consequent %></td>
+                <td><%= element.support %></td>
+                <td><%= element.confidence %></td>
+                <td><%= element.lift_ratio %></td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+          <hr />
+          <div class="row">
+            <div class="col-md-12">
+              <form method="POST" action="/trx/recommendation">
+                <h3>Generate Rekomendasi</h3>
+                <h5>Total Data Transaksi: <%= trxCount %> </h5>
+                <div class="col-md-4">
+                  <label for="nama_produk">Support: </label
+                  ><input
+                    type="text"
+                    name="support"
+                    id="support"
+                    class="form-control"
+                    placeholder="Minimum Support"
+                  />
+                </div>
+                <div class="col-md-4 mt-3">
+                  <label for="nama_produk">Confidence: </label
+                  ><input
+                    type="text"
+                    name="confidence"
+                    id="confidence"
+                    class="form-control"
+                    placeholder="Confidence"
+                  />
+                </div>
+                <div class="col-md-4 mt-3">
+                  <label for="nama_produk">Jumlah Data Untuk Dijadikan Model: </label
+                  ><input
+                    type="number"
+                    name="total_data"
+                    id="total_data"
+                    class="form-control"
+                    placeholder="Jumlah Data"
+                  />
+                </div>
+                <div class="col-md-4 mt-3">
+                  <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-<%- include ('./templates/footer.ejs') %>
+  <%- include ('./templates/footer.ejs') %>
+</div>

@@ -145,6 +145,8 @@
       harga,
     };
 
+    console.log(jwt)
+
     fetch(`http://localhost:8000/api/product/update/${id}`, {
       headers: {
         Authorization: `Bearer ${jwt}`,

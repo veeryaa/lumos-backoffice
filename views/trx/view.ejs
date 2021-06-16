@@ -1,0 +1,100 @@
+<%- include ('../templates/header.ejs') %> <%- include ('../templates/navbar.ejs') %>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-3">
+        <div class="card-header">Lumos Coffee Backoffice - Produk</div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="pdf" />
+                <label class="custom-file-label" for="pdf">Pilih file pdf transaksi ...</label>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div
+                class="spinner-border"
+                id="spinner"
+                style="width: 3rem; height: 3rem"
+                role="status"
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          </div>
+          <table class="table table-responsive-md">
+            <thead>
+              <tr>
+                <th scope="col">Trx ID</th>
+                <th scope="col">Tanggal Transaksi</th>
+                <th scope="col">Customer ID</th>
+                <th scope="col">Nilai Transaksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% data.forEach((element, i) => { %>
+              <tr>
+                <td>
+                  <a href="/trx/edit/<%= element.trx_id %> "><%= element.trx_id %></a>
+                </td>
+                <td><%= new Date(element.tgl_transaksi).toLocaleString().split(',')[0] %></td>
+                <td>
+                  <% if (element.customer_id === 4) { %> <%= 'UNCLAIMED' %> <% } else { %> <%=
+                  element.customer_id %> <% } %>
+                </td>
+                <td><%= element.nilai_transaksi %></td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+          <% if (pagination) { %>
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item"><a class="page-link" href="#" id="previous">Previous</a></li>
+              <% for( let i = 1; i <= pagination; i++ ) { %>
+              <li class="page-item">
+                <a class="page-link" href="/trx/view?page=<%= i %>"><%= i %></a>
+              </li>
+              <% } %>
+              <li class="page-item"><a class="page-link" href="#" id="next">Next</a></li>
+            </ul>
+          </nav>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const pdf = document.getElementById('pdf');
+  const spinner = document.getElementById('spinner');
+  spinner.style.visibility = 'hidden';
+
+  pdf.addEventListener(
+    'change',
+    (e) => {
+      spinner.style.visibility = 'visible';
+
+      const data = new FormData();
+      data.append('data', pdf.files[0]);
+      data.append('id', 'FF001');
+
+      fetch('http://localhost:8000/api/transaction/transfer', {
+        method: 'POST',
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          spinner.style.visibility = 'hidden';
+          window.location.reload();
+        })
+        .catch((err) => console.log(err));
+    },
+    false
+  );
+</script>
+
+<%- include ('../templates/footer.ejs') %>

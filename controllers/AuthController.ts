@@ -43,7 +43,12 @@ const AuthController = {
         token: jwt,
       });
 
-      res.render('home', { nav: 'home' });
+      if (response.data.status === 200) {
+        const response = await axios.get('http://localhost:8000/api/transaction/listrecommendation')
+        
+        res.render('home', { nav: 'home', data: response.data.result.read, trxCount: response.data.result.trxCount });
+      }
+
     } catch (err) {
       res.redirect('/login');
     }

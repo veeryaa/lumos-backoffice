@@ -1,0 +1,112 @@
+<%- include ('../templates/header.ejs') %> <%- include ('../templates/navbar.ejs') %>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">Lumos Coffee Backoffice - Kupon</div>
+        <div class="card-body">
+          <h3>Transaction Detail</h3>
+          <form action="" method="POST" id="updateForm">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="id">Transaction ID: </label
+                ><input
+                  type="text"
+                  id="id"
+                  class="form-control"
+                  disabled
+                  placeholder="Transaction ID"
+                  value="<%= data[0].trx.trx_id %> "
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="nama_produk">Tanggal Transaksi: </label
+                ><input
+                  type="text"
+                  name="tgl_transaksi"
+                  id="tgl_transaksi"
+                  class="form-control"
+                  placeholder="Tanggal Transaksi"
+                  disabled
+                  value="<%= new Date(data[0].trx.tgl_transaksi).toLocaleString().split(',')[0] %> "
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label for="id">Point Reward: </label
+                ><input
+                  type="text"
+                  id="id"
+                  class="form-control"
+                  disabled
+                  placeholder="Point Reward"
+                  value="<%=
+                data[0].trx.point %>"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="nama_produk">Nilai Transaksi: </label
+                ><input
+                  type="text"
+                  name="nilai_trx"
+                  id="nilai_trx"
+                  class="form-control"
+                  placeholder="Nilai Transaksi"
+                  disabled
+                  value="<%= data[0].trx.nilai_transaksi %> "
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <label for="id">Diklaim Oleh: </label
+                ><input
+                  type="text"
+                  id="customer"
+                  name="customer"
+                  class="form-control"
+                  disabled
+                  placeholder="Diklaim Oleh"
+                  value="<%= data[0].trx.customer_id === 4 ? 'UNCLAIMED' : data[0].trx.customer.nama %>"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="nama_produk">Rekomendasi</label
+                ><input
+                  type="text"
+                  disabled
+                  name="rekomendasi"
+                  id="rekomendasi"
+                  class="form-control"
+                  placeholder="Hasil Rekomendasi"
+                  value="<%= data[0].rekomendasi %> "
+                />
+              </div>
+
+              <table class="table table-responsive-md mt-5">
+                <thead>
+                  <tr>
+                    <th scope="col">Produk Dibeli</th>
+                    <th scope="col">Kategori</th>
+                    <th scope="col">Harga</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% data[0].trx.TransactionDetail.forEach(element => { %>
+                    <tr>
+                      <td><%= element.product.nama_produk %> </td>
+                      <td><%= element.product.kategori %> </td>
+                      <td><%= element.product.harga %> </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

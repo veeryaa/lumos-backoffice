@@ -73,7 +73,7 @@
                   <% support.forEach(product => { %>
                   <option value="<%= product.product_id %>" <%= product.product_id === data[0].product_id ? 'selected' : '' %>  ><%= product.nama_produk %></option>
                   <% }) %></select
-                >element element
+                >
       
               </div>
               <div class="col-md-6">
@@ -115,7 +115,7 @@
     </div>
   </div>
 </div>
-
+ 
 <script>
   const pickerTglMulai = document.getElementById('tgl_mulai');
   const pickerTglBerakhir = document.getElementById('tgl_berakhir');
