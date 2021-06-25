@@ -4,13 +4,14 @@
   <div class="row">
     <div class="col-md-12">
       <div class="card mb-3">
-        <div class="card-header">Lumos Coffee Backoffice - Produk</div>
+        <div class="card-header">Lumos Coffee Backoffice - Transaksi</div>
         <div class="card-body">
           <div class="row">
             <div class="col-md-4 mb-3">
               <div class="custom-file">
-                <input type="file" class="custom-file-input" id="pdf" />
                 <label class="custom-file-label" for="pdf">Pilih file pdf transaksi ...</label>
+                <input type="file" class="custom-file-input" id="pdf" />
+                <div id="info"></div>
               </div>
             </div>
             <div class="col-md-4 mb-3">
@@ -89,9 +90,18 @@
         .then((res) => res.json())
         .then((res) => {
           spinner.style.visibility = 'hidden';
-          window.location.reload();
+          if (res.status === 500) {
+            pdf.nextElementSibling.innerHTML = '';
+            pdf.nextElementSibling.innerHTML = `<span class="badge badge-danger">${res.msg}</span>`;
+          } else if (res.status === 201) {
+            pdf.nextElementSibling.innerHTML = '';
+            pdf.nextElementSibling.innerHTML = `<span class="badge badge-success">Berhasil</span>`;
+          }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          pdf.nextElementSibling.innerHTML = '';
+          pdf.nextElementSibling.innerHTML = `<span class="badge badge-danger">${err}</span>`;
+        });
     },
     false
   );
