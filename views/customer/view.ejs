@@ -78,12 +78,12 @@
     if (memberParam) {
       nextPage.setAttribute(
         'href',
-        `http://lumos-studio.me:7000/customer/view?member=${memberParam}&page=${parseInt(pageParam) + 1}`
+        `http://lumos-studio.me/customer/view?member=${memberParam}&page=${parseInt(pageParam) + 1}`
       );
     } else {
       nextPage.setAttribute(
         'href',
-        `http://lumos-studio.me:7000/customer/view?page=${parseInt(pageParam) + 1}`
+        `http://lumos-studio.me/customer/view?page=${parseInt(pageParam) + 1}`
       );
     }
   }
@@ -92,20 +92,20 @@
     if (kategoriParam) {
       prevPage.setAttribute(
         'href',
-        `http://lumos-studio.me:7000/customer/view?kategori=${memberParam}&page=${
+        `http://lumos-studio.me/customer/view?kategori=${memberParam}&page=${
           parseInt(pageParam) - 1
         }`
       );
     } else {
       prevPage.setAttribute(
         'href',
-        `http://lumos-studio.me:7000/customer/view?page=${parseInt(pageParam) - 1}`
+        `http://lumos-studio.me/customer/view?page=${parseInt(pageParam) - 1}`
       );
     }
   }
 
   member.addEventListener('change', (e) => {
-    window.location.href = `http://lumos-studio.me:7000/customer/view?member=${e.target.value}&page=1`;
+    window.location.href = `http://lumos-studio.me/customer/view?member=${e.target.value}&page=1`;
   });
 
   if (pageParam) {
