@@ -86,12 +86,12 @@
     if (roleParam) {
       nextPage.setAttribute(
         'href',
-        `http://localhost:7000/employee/view?role=${roleParam}&page=${parseInt(pageParam) + 1}`
+        `http://lumos-studio.me/employee/view?role=${roleParam}&page=${parseInt(pageParam) + 1}`
       );
     } else {
       nextPage.setAttribute(
         'href', 
-        `http://localhost:7000/employee/view?page=${parseInt(pageParam) + 1}`
+        `http://lumos-studio.me/employee/view?page=${parseInt(pageParam) + 1}`
       );
     }
   }
@@ -100,18 +100,18 @@
     if (roleParam) {
       prevPage.setAttribute(
         'href',
-        `http://localhost:7000/employee/view?role=${roleParam}&page=${parseInt(pageParam) - 1}`
+        `http://lumos-studio.me/employee/view?role=${roleParam}&page=${parseInt(pageParam) - 1}`
       );
     } else {
       prevPage.setAttribute(
         'href',
-        `http://localhost:7000/employee/view?page=${parseInt(pageParam) - 1}`
+        `http://lumos-studio.me/employee/view?page=${parseInt(pageParam) - 1}`
       );
     }
   }
 
   role.addEventListener('change', (e) => {
-    window.location.href = `http://localhost:7000/employee/view?role=${e.target.value}&page=1`;
+    window.location.href = `http://lumos-studio.me/employee/view?role=${e.target.value}&page=1`;
   });
 
   if (pageParam) {
