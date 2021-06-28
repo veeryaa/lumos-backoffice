@@ -83,7 +83,7 @@
       data.append('data', pdf.files[0]);
       data.append('id', 'FF001');
 
-      fetch('http://localhost:8000/api/transaction/transfer', {
+      fetch('http://lumos-studio.me:8000/api/transaction/transfer', {
         method: 'POST',
         body: data,
       })
