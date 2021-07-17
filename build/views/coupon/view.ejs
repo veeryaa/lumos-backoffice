@@ -1,0 +1,46 @@
+<%- include ('../templates/header.ejs') %> <%- include ('../templates/navbar.ejs') %>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">Lumos Coffee Backoffice - Coupon</div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-3">
+              <a href="/coupon/insert" style="width: 100%" class="btn btn-primary">Tambah Data Kupon</a>
+            </div>
+          </div>
+          <table class="table table-responsive-md mt-3">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Coupon ID</th>
+                <th scope="col">Nama Kupon</th>
+                <th scope="col">Nama Produk Diskon</th>
+                <th scope="col">Diskon</th>
+                <th scope="col">Tanggal Mulai</th>
+                <th scope="col">Tanggal Berakhir</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% data.forEach((element, i) => { %>
+                <tr>
+                  <td><%= i + 1%></td>
+                  <td><a href="/coupon/edit/<%= element.coupon_id %> "><%= element.coupon_id %></a></td>
+                  <td><%= element.nama_kupon %></td>
+                  <td><%= element.product.nama_produk %></td>
+                  <td><%= element.diskon %></td>
+                  <td><%= new Date(element.tgl_mulai).toLocaleString().split(',')[0] %></td>
+                  <td><%= new Date(element.tgl_berakhir).toLocaleString().split(',')[0] %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include ('../templates/footer.ejs') %>

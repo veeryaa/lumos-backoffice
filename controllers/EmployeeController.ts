@@ -13,7 +13,6 @@ const EmployeeController = {
       const response = await axios.post('http://localhost:8000/auth/verifyToken/', {
         token: jwt,
       });
-      console.log('OUTSIDE ROLE');
       if (response.data.status === 200) {
         if (req.query.role) {
           const employee = await axios.get(
@@ -35,7 +34,6 @@ const EmployeeController = {
             role: req.query.role,
           });
         } else {
-          console.log('TEST ROLE 2');
           const employee = await axios.get(
             `http://localhost:8000/api/employee/read?page=${req.query.page}`,
             {
@@ -74,9 +72,6 @@ const EmployeeController = {
             Authorization: `Bearer ${jwt}`,
           },
         });
-
-        console.log(' --kategori employee');
-        console.log(employee.data);
 
         res.render('employee/view', { nav: 'employee', data: employee.data.result });
       }

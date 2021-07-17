@@ -90,19 +90,6 @@
             </div>
             <div class="row mt-1">
               <div class="col-md-6">
-                <label for="deskripsi">Poin: </label
-                  ><input
-                    type="text"
-                    name="point"
-                    id="point"
-                    class="form-control"
-                    placeholder="Point"
-                    value="<%= data[0].point %>"
-                  />
-              </div>
-            </div>
-            <div class="row mt-1">
-              <div class="col-md-6">
                 <label for="tgl_mulai">Tanggal Mulai: </label
                 ><input type="date" class="form-control" name="tgl_mulai" id="tgl_mulai" />
               </div>
@@ -123,30 +110,6 @@
               </div>
             </div>
           </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row mt-3">
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-body">
-          <table class="table table-responsive-md mt-3">
-            <thead>
-              <tr>
-                <th scope="col">Coupon Owner Id</th>
-                <th scope="col">Pemilik Kupon</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% data[0].CouponOwner.forEach(element => { %>
-                <tr>
-                  <td><%= element.id %> </td>
-                  <td><%= element.customer.nama %> </td>
-                </tr>
-              <% }) %>
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
@@ -182,14 +145,12 @@
     const id = readForm('id');
     const nama_kupon = readForm('nama_kupon');
     const product_id = readForm('produk_diskon');
-    const point = readForm('point')
     const diskon = readForm('diskon');
 
     const data = {
       nama_kupon,
       product_id,
       diskon,
-      point,
       tgl_mulai: pickerTglMulai.value,
       tgl_berakhir: pickerTglBerakhir.value,
     };

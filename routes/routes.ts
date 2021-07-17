@@ -48,5 +48,6 @@ router.get('/customer/edit/:id', CustomerController.edit);
 router.get('/trx/view', TrxController.view);
 router.get('/trx/edit/:id', TrxController.edit);
 router.post('/trx/recommendation', TrxController.recommendation);
+router.post('/trx/export', TrxController.export);
 
 export default router;

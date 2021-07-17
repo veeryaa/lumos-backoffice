@@ -35,7 +35,6 @@ const CustomerController = {
             member: req.query.member,
           });
         } else {
-          console.log('TEST CUSTOMER ALL');
           const customer = await axios.get(
             `http://localhost:8000/api/customer/read?page=${req.query.page}`,
             {
@@ -77,9 +76,6 @@ const CustomerController = {
             },
           }
         );
-
-        console.log('------ customer');
-        console.log(customer.data.result);
 
         res.render('customer/edit', { nav: 'customer', data: customer.data.result });
       }

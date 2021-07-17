@@ -67,7 +67,7 @@
       </div>
     </div>
   </div>
-</div>  
+</div>
 
 <script>
   const pdf = document.getElementById('pdf');
@@ -81,7 +81,6 @@
 
       const data = new FormData();
       data.append('data', pdf.files[0]);
-
       data.append('id', 'FF001');
 
       fetch('http://localhost:8000/api/transaction/transfer', {

@@ -1,0 +1,140 @@
+<%- include ('../templates/header.ejs') %> <%- include ('../templates/navbar.ejs') %>
+
+<div id="successModal" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="card">
+        <div class="card-header">
+          <h3>Notifikasi</h3>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-success" role="alert">
+            Data <%= data[0].coupond_id %> berhasil diupdate.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="failModal" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="card">
+        <div class="card-header">
+          <h3>Notifikasi</h3>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-danger" role="alert">
+            Data <%= data[0].coupond_id %> gagal diupdate.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">Lumos Coffee Backoffice - Customer</div>
+        <div class="card-body">
+          <h3>View Data</h3>
+          <form action="" method="POST" id="updateForm">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="id">Customer ID: </label
+                ><input
+                  type="text"
+                  id="id"
+                  class="form-control"
+                  disabled
+                  placeholder="Customer ID"
+                  value="<%= data[0].customer_id %>"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="nama">Nama: </label
+                ><input
+                  type="text"
+                  name="nama"
+                  id="nama"
+                  class="form-control"
+                  placeholder="Nama Customer"
+                  value="<%= data[0].nama %>" disabled
+                />
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-6">
+                <label for="kota">Kota: </label
+                ><input
+                  type="text"
+                  name="kota"
+                  id="kota"
+                  disabled
+                  class="form-control"
+                  placeholder="Kota"
+                  value="<%= data[0].kota %>"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="email">Email: </label
+                ><input
+                  type="text"
+                  name="email"
+                  id="email"
+                  class="form-control"
+                  placeholder="Email"
+                  value="<%= data[0].email %>" disabled
+                />
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-6">
+                <label for="tgl_lahir">Tanggal Lahir: </label
+                ><input disabled type="date" class="form-control" name="tgl_lahir" id="tgl_lahir" />
+              </div>
+              <div class="col-md-6">
+                <label for="point">Point: </label
+                ><input
+                  type="text"
+                  name="point"
+                  id="point"
+                  class="form-control"
+                  value="<%= data[0].point %>"
+                  placeholder="Point" disabled
+                />
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-6">
+                <label for="handphone">Handphone: </label
+                ><input
+                  type="text"
+                  name="handphone"
+                  id="handphone"
+                  class="form-control"
+                  value="<%= data[0].CustomerAccount[0].handphone %>"
+                  placeholder="handphone" disabled
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const pickerTgl = document.getElementById('tgl_lahir');
+  const loading = document.getElementById('loading');
+  const tgl_lahir = new Date('<%- data[0].tanggal_lahir %>').toISOString().split('T')[0].slice(0, 10);
+
+  pickerTgl.value = tgl_lahir;
+  loading.style.visibility = 'hidden';
+</script>
+
+<%- include ('../templates/footer.ejs') %>

@@ -89,20 +89,16 @@
                 <thead>
                   <tr>
                     <th scope="col">Produk Dibeli</th>
-                    <th scope="col">Kuantiti</th>
                     <th scope="col">Kategori</th>
                     <th scope="col">Harga</th>
-                    <th scope="col">Subtotal</th>
                   </tr>
                 </thead>
                 <tbody>
                   <% data[0].trx.TransactionDetail.forEach(element => { %>
                     <tr>
                       <td><%= element.product.nama_produk %> </td>
-                      <td><%= element.kuantiti %> </td>
                       <td><%= element.product.kategori %> </td>
                       <td><%= element.product.harga %> </td>
-                      <td><%= element.product.harga * element.kuantiti %> </td>
                     </tr>
                   <% }) %>
                 </tbody>

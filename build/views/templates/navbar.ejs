@@ -1,0 +1,72 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <li class="navbar-brand">Lumos Backoffice</li>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarNavDropdown"
+    aria-controls="navbarNavDropdown"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link <% if (nav === 'home') { %> <%= 'active' %> <% } %>" href="/home"
+          >Home</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link <% if (nav === 'product') { %> <%= 'active' %> <% } %>"
+          href="/product/view?page=1"
+          >Product</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link <% if (nav === 'employee') { %> <%= 'active' %> <% } %>"
+          href="/employee/view?page=1"
+          >Employee</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link <% if (nav === 'coupon') { %> <%= 'active' %> <% } %>"
+          href="/coupon/view"
+          >Coupon</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link <% if (nav === 'membership') { %> <%= 'active' %> <% } %>"
+          href="/membership/view"
+          >Membership</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link <% if (nav === 'trx') { %> <%= 'active' %> <% } %>"
+          href="/trx/view?page=1"
+          >Transaction</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link <% if (nav === 'customer') { %> <%= 'active' %> <% } %>"
+          href="/customer/view?page=1"
+          >Customer</a
+        >
+      </li>
+    </ul>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <form action="/logout" method="POST">
+          <button class="btn btn-primary">Logout</button>
+        </form>
+      </li>
+    </ul>
+  </div>
+</nav>

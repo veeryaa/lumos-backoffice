@@ -48,10 +48,7 @@ const CouponController = {
           },
         });
 
-        console.log('------ COUPON');
-        console.log(coupon.data.result);
-        console.log('SUPPORT');
-        console.log(product.data.result);
+        console.log(coupon.data.result)
 
         res.render('coupon/edit', {
           nav: 'coupon',
@@ -81,11 +78,9 @@ const CouponController = {
         res.render('coupon/insert', { nav: 'coupon', support: product.data.result });
       }
     } catch (err) {
-      console.log('--- COUPON ERR');
-      console.log(err)
       res.redirect('/login');
     }
-  },
+  },  
   insert: async function (req: Request, res: Response): Promise<void> {
     try {
       const { jwt } = req.cookies;
@@ -94,10 +89,9 @@ const CouponController = {
         token: jwt,
       });
 
-      if (response.data.status === 200) {
-        console.log('TESTTTTTTTT');
-        console.log(req.body);
+      console.log(req.body)
 
+      if (response.data.status === 200) {
         await axios.post('http://localhost:8000/api/coupon/create', req.body, {
           headers: {
             Authorization: `Bearer ${jwt}`,
@@ -109,7 +103,7 @@ const CouponController = {
         res.redirect('/coupon/insert');
       }
     } catch (err) {
-      console.log(err.response);
+      console.log(err)
       res.redirect('/login');
     }
   },
